@@ -5,8 +5,9 @@ class LocalStorageRepository{
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('x-auth-token', token);
   }
-  void getToken() async{
+  Future<String?> getToken() async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.getString('x-auth-token');
+    String? token = preferences.getString('x-auth-token');
+    return token;
   }
 }
