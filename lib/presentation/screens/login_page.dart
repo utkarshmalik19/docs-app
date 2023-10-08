@@ -2,18 +2,19 @@ import 'package:docs_app/presentation/screens/home_page.dart';
 import 'package:docs_app/repository/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({super.key});
 
   void signInWithGoogle(WidgetRef ref, BuildContext context) async {
     final sMessanger = ScaffoldMessenger.of(context);
-    final navigator = Navigator.of(context);
+    final navigator = Routemaster.of(context);
     final errorModel =
         await ref.read(authRepositoryProvider).signInWithGoogle();
     if (errorModel.error == null) {
       ref.read(userProvider.notifier).update((state) => errorModel.data);
-      navigator.push(MaterialPageRoute(builder: (context)=> HomePage()));
+      navigator.replace('/');
     } else {
       sMessanger.showSnackBar(SnackBar(content: Text(errorModel.error!)));
     }

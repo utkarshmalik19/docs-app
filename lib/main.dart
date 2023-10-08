@@ -2,8 +2,10 @@ import 'package:docs_app/models/error_model.dart';
 import 'package:docs_app/presentation/screens/home_page.dart';
 import 'package:docs_app/presentation/screens/login_page.dart';
 import 'package:docs_app/repository/auth_repository.dart';
+import 'package:docs_app/utils/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 
 
 void main() {
@@ -33,11 +35,19 @@ class _MyAppState extends ConsumerState<MyApp> {
   }
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(userProvider);
-    return  MaterialApp(
+    
+    return  MaterialApp.router(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: user==null? LoginPage(): HomePage(),
+      routerDelegate: RoutemasterDelegate(routesBuilder: (context){
+        final user = ref.watch(userProvider);
+        if(user!=null && user.token.isNotEmpty){
+          return loggedInRoute;
+        }
+        return loggedOutRoute;
+      }),
+      routeInformationParser: RoutemasterParser(),
+      
     );
   }
   
