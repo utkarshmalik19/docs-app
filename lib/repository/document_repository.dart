@@ -33,4 +33,32 @@ class DocumentRepository {
     }
     return errorModel;
   }
+
+  Future<ErrorModel> getDocuments(String token) async {
+    ErrorModel errorModel =
+        ErrorModel(error: 'Some unexcepted error occurred', data: null);
+    var res = await _client.get(Uri.parse('$serverUrl/docs/me'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': token
+        },
+       );
+    try {
+      switch (res.statusCode) {
+        case 200:
+        List<DocumentModel> documents = [];
+        for(int i=0 ; i<jsonDecode(res.body).length; i++){
+          documents.add(DocumentModel.fromJson(jsonEncode(jsonDecode(res.body)[i])));
+        }
+          errorModel =
+              ErrorModel(error: null, data: DocumentModel.fromJson(res.body));
+          break;
+        default:
+          errorModel = ErrorModel(error: res.body, data: null);
+      }
+    } catch (e) {
+      errorModel = ErrorModel(error: res.body, data: null);
+    }
+    return errorModel;
+  }
 }

@@ -10,5 +10,5 @@ final loggedOutRoute = RouteMap(routes: {
 
 final loggedInRoute = RouteMap(routes: {
 '/': (route) => MaterialPage(child: HomePage()),
-'/document/:id': (route) => MaterialPage(child: DocumentPage(id: route.pathParameters['id'] ?? '',))
+'/document/:id': (route) => MaterialPage(child: DocumentPage(id: route.pathParameters['id'] ?? '',)) 
 });

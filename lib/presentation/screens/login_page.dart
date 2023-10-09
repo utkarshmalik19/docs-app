@@ -10,8 +10,7 @@ class LoginPage extends ConsumerWidget {
   void signInWithGoogle(WidgetRef ref, BuildContext context) async {
     final sMessanger = ScaffoldMessenger.of(context);
     final navigator = Routemaster.of(context);
-    final errorModel =
-        await ref.read(authRepositoryProvider).signInWithGoogle();
+    final errorModel = await ref.read(authRepositoryProvider).signInWithGoogle();
     if (errorModel.error == null) {
       ref.read(userProvider.notifier).update((state) => errorModel.data);
       navigator.replace('/');

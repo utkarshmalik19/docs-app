@@ -81,7 +81,7 @@ class AuthRepository {
         }
       }
     } catch (e) {
-      errorModel = ErrorModel(error: e.toString(), data: null);
+      errorModel = ErrorModel(error: 'e.toString()', data: null);
     }
     return errorModel;
   }
